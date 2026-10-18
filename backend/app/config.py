@@ -6,9 +6,10 @@ def default_data_root() -> Path:
     return Path(os.getenv("LOCALAPPDATA", str(Path.home()))) / "AIAudioStudio"
 
 _DEFAULT_DATA_ROOT = default_data_root()
+_BACKEND_DIR = Path(__file__).resolve().parents[1]
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+    model_config = SettingsConfigDict(env_file=_BACKEND_DIR / ".env", extra="ignore")
     data_root: Path = _DEFAULT_DATA_ROOT
     indextts_python: Path = Path("")
     indextts_repo: Path = Path("")
