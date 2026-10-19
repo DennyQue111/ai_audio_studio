@@ -6,7 +6,18 @@ from fastapi.responses import FileResponse
 from .config import settings
 from .services import model_status,tts,convert
 app=FastAPI(title="AI Audio Studio")
-app.add_middleware(CORSMiddleware,allow_origins=["http://localhost:5173"],allow_methods=["*"],allow_headers=["*"])
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",
+        "http://localhost:5175",
+        "http://127.0.0.1:5175",
+        "http://localhost:5178",
+        "http://127.0.0.1:5178",
+    ],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 jobs={}
 def save(f):
     ext=Path(f.filename or ".wav").suffix.lower()
