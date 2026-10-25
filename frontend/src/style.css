@@ -21,7 +21,7 @@ footer {
 }
 .models {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
 }
 .models > div,
@@ -45,6 +45,7 @@ aside {
 }
 nav {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   margin-top: 20px;
 }
@@ -67,7 +68,8 @@ form {
   padding: 24px;
 }
 textarea,
-input {
+input,
+select {
   background: #071321;
   color: white;
   border: 1px solid #30465e;
@@ -79,8 +81,18 @@ label {
   display: grid;
   gap: 8px;
 }
+audio {
+  width: 100%;
+}
 aside {
   margin-top: 15px;
+}
+.stem {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid #263b54;
+  border-radius: 9px;
 }
 a {
   color: #60a5fa;

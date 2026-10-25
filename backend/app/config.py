@@ -11,6 +11,8 @@ _BACKEND_DIR = Path(__file__).resolve().parents[1]
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=_BACKEND_DIR / ".env", extra="ignore")
     data_root: Path = _DEFAULT_DATA_ROOT
+    comfyui_url: str = "http://127.0.0.1:8188"
+    comfyui_root: Path = Path(r"D:\program\comfyUI\ComfyUI_windows_portable_nvidia\ComfyUI_windows_portable\ComfyUI")
     indextts_python: Path = Path("")
     indextts_repo: Path = Path("")
     indextts_model_dir: Path = _DEFAULT_DATA_ROOT / "models" / "IndexTTS-2"
