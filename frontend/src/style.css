@@ -49,6 +49,10 @@ nav {
   gap: 8px;
   margin-top: 20px;
 }
+.subnav {
+  padding-bottom: 4px;
+  border-bottom: 1px solid #263b54;
+}
 button {
   display: flex;
   gap: 7px;

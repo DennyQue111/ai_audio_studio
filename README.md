@@ -1,6 +1,6 @@
 # AI Audio Studio
 
-本地声音工作室，支持 IndexTTS2 参考音频文字转人声、Seed-VC V2 音色转换，以及通过现有 ComfyUI 生成描述音色、音乐和音效。
+本地声音工作室，支持 IndexTTS2 参考音频文字转人声、Seed-VC V2 音色转换、ComfyUI 人声/音乐/音效生成、歌曲分轨与歌曲换声。
 
 仅可处理本人或已明确授权的声音，不得用于冒充、欺诈或未经授权的声音克隆。
 
@@ -79,7 +79,7 @@ Windows建议使用Python 3.10。模型下载命令：
 
 如安装位置不同，可在 `backend/.env` 设置 `COMFYUI_URL` 和 `COMFYUI_ROOT`。前端提供提示词生成人声、音乐和音效页签。人声由现有 `qwen3-tts-comfyui` 的 VoiceDesign 节点生成；音乐和音效由 ComfyUI 内置 Stable Audio 3 Small 工作流生成。Small Music 和 Small SFX 的单次生成时长均为 1–120 秒（最长 2 分钟）；时间越长，生成通常越慢、显存占用越高。音乐与音效各用一个检查点，并共享 T5Gemma 文本编码器。工作流输出 FLAC，并将结果回传到本项目的输出目录。
 
-“音频分离”页签通过已有的 `audio-separation-nodes-comfyui` 节点处理上传的歌曲，输出人声、合并伴奏，以及贝斯、鼓、其他伴奏四条来源轨。节点使用 HTDemucs/MUSDB+ 预训练模型；第一次运行时 ComfyUI 可能需要自动下载其权重。这里的“其他伴奏”不是独立音效轨，环境音或音效不保证能与乐器分开；当前主要保证人声与伴奏的分离。模型分离结果可能残留串音，质量取决于输入混音。
+“预设 → 音频分离”通过已有的 `audio-separation-nodes-comfyui` 节点处理上传的歌曲，输出人声、合并伴奏，以及贝斯、鼓、其他伴奏三条来源轨。节点使用 HTDemucs/MUSDB+ 预训练模型；第一次运行时 ComfyUI 可能需要自动下载其权重。“功能 → 歌曲换声”先对歌曲执行相同分离，再以参考音频为目标音色调用 Seed-VC 转换分离出的人声轨，最后将转换的人声轨与伴奏合成。因为转换输入是完整时间轴的人声 stem（包括演唱间隙），音符/歌词节奏和进入时间沿用原歌曲；参考音频只提供音色，不会把参考音频演唱贴到歌里。混音重建质量受分离串音、Seed-VC 转换延迟和音量差异影响，输出还需要试听确认。此功能要求 Seed-VC 模型/环境、ComfyUI 分离节点和 FFmpeg 已就绪。“其他伴奏”不是独立音效轨，环境声或音效不保证能与乐器分开。
 
 Stable Audio 权重需要先在 Hugging Face 登录并接受 Stability AI Community License 和 Gemma 使用条款；本项目不会代替用户接受条款。接受后下载以下模型并放置到 portable ComfyUI 对应目录：
 

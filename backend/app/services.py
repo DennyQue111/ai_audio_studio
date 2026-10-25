@@ -24,8 +24,15 @@ def tts(text,voice,output,emotion=""):
     return output
 
 def convert(source,reference,outdir):
-    cmd=[str(settings.seedvc_python),str(settings.seedvc_repo/"inference_v2.py"),"--source",str(source),"--target",str(reference),"--output",str(outdir),"--diffusion-steps","25","--intelligibility-cfg-rate","0.7","--similarity-cfg-rate","0.7","--convert-style","true","--cfm-checkpoint-path",str(settings.seedvc_model_dir/"v2"/"cfm_small.pth"),"--ar-checkpoint-path",str(settings.seedvc_model_dir/"v2"/"ar_base.pth")]
+    worker=Path(__file__).parents[1]/"workers"/"seedvc_worker.py"
+    cmd=[str(settings.seedvc_python),str(worker),"--python",str(settings.seedvc_python),"--repo",str(settings.seedvc_repo),"--source",str(source),"--reference",str(reference),"--output",str(outdir),"--models",str(settings.seedvc_model_dir)]
     run(cmd,settings.seedvc_repo)
     wavs=sorted(outdir.glob("*.wav"),key=lambda p:p.stat().st_mtime,reverse=True)
     if not wavs: raise RuntimeError("Seed-VC没有生成WAV")
     return wavs[0]
+
+
+def conversion_status():
+    return {
+        "ready": model_status()["seed_vc"]["ready"],
+    }
